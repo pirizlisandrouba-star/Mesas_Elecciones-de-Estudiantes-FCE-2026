@@ -2,142 +2,179 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Consulta de Mesas</title>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; }
 
         body {
             font-family: 'Roboto', Arial, sans-serif;
             background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            padding:20px;
         }
 
         .header {
-            text-align: center;
-            margin: 20px 0;
+            text-align:center;
+            margin:20px 0 30px 0;
         }
 
         .header h1 {
-            color: #ffffff;
-            font-size: 1.6rem;
-            font-weight: 900;
-            text-transform: uppercase;
+            color:#fff;
+            font-size:1.6rem;
+            font-weight:900;
+            letter-spacing:2px;
+            text-shadow:0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            color:rgba(255,255,255,0.85);
+            font-size:0.9rem;
         }
 
         .card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 30px 25px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background:#fff;
+            border-radius:20px;
+            padding:30px 25px;
+            width:100%;
+            max-width:400px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .input-group {
+            margin-bottom:20px;
+        }
+
+        .input-group label {
+            font-size:0.85rem;
+            font-weight:700;
+            color:#e65100;
         }
 
         .input-group input {
-            width: 100%;
-            padding: 16px;
-            font-size: 1.3rem;
-            border-radius: 12px;
-            border: 3px solid #ffe0b2;
-            text-align: center;
+            width:100%;
+            padding:16px;
+            font-size:1.3rem;
+            border-radius:12px;
+            border:3px solid #ffe0b2;
+            text-align:center;
+            margin-top:8px;
         }
 
         .btn-search {
-            width: 100%;
-            padding: 16px;
-            margin-top: 15px;
-            font-weight: 700;
-            color: #fff;
-            background: linear-gradient(135deg, #e65100, #ff9800);
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
+            width:100%;
+            padding:16px;
+            font-weight:700;
+            background:linear-gradient(135deg,#e65100,#ff9800);
+            color:#fff;
+            border:none;
+            border-radius:12px;
+            cursor:pointer;
         }
 
-        .result-container { margin-top: 25px; display: none; }
-        .result-container.active { display: block; }
+        .result-container {
+            margin-top:25px;
+            display:none;
+        }
 
-        .result-box { border-radius: 16px; overflow: hidden; }
+        .result-container.active {
+            display:block;
+        }
+
+        .result-box {
+            border-radius:16px;
+            overflow:hidden;
+        }
 
         .result-header {
-            padding: 15px;
-            text-align: center;
-            font-weight: 700;
+            padding:15px;
+            text-align:center;
+            font-weight:700;
         }
 
-        .success { background: #e65100; color: white; }
-        .error { background: #c62828; color: white; }
+        .success { background:#e65100; color:#fff; }
+        .error { background:#c62828; color:#fff; }
 
         .result-row {
-            display: flex;
+            display:flex;
+            border-bottom:1px solid #ffe0b2;
         }
 
         .result-label {
-            flex: 1;
-            padding: 15px;
-            font-weight: 700;
-            background: #fff3e0;
+            flex:1;
+            padding:15px;
+            background:#fff3e0;
+            font-weight:700;
         }
 
         .result-value {
-            flex: 1;
-            padding: 15px;
-            font-weight: 900;
-            text-align: center;
-            background: #fff8e1;
+            flex:1;
+            padding:15px;
+            text-align:center;
+            font-weight:900;
+            background:#fff8e1;
         }
 
         .mesa-num {
-            font-size: 2.5rem;
-        }
-
-        .table-container {
-            margin-top: 15px;
-            display: none;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .table-container.active { display: block; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.8rem;
-        }
-
-        th {
-            background: #e65100;
-            color: #fff;
-            padding: 10px;
-        }
-
-        td {
-            padding: 8px;
-            text-align: center;
-        }
-
-        tr.highlight {
-            background: #ffe082;
-            font-weight: bold;
+            font-size:2.5rem;
         }
 
         .btn-toggle-table {
-            margin-top: 15px;
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            color: #e65100;
-            cursor: pointer;
+            margin-top:15px;
+            width:100%;
+            padding:12px;
+            border:none;
+            background:transparent;
+            color:#e65100;
+            cursor:pointer;
+            font-weight:700;
+        }
+
+        .table-container {
+            display:none;
+            margin-top:10px;
+            max-height:300px;
+            overflow:auto;
+        }
+
+        .table-container.active {
+            display:block;
+        }
+
+        table {
+            width:100%;
+            border-collapse:collapse;
+            font-size:0.8rem;
+        }
+
+        th {
+            background:#e65100;
+            color:#fff;
+            padding:10px;
+        }
+
+        td {
+            padding:8px;
+            text-align:center;
+            border-bottom:1px solid #ffe0b2;
+        }
+
+        tr.highlight {
+            background:#ffe082;
+            font-weight:700;
+        }
+
+        .footer {
+            margin-top:20px;
+            color:white;
+            font-size:0.7rem;
+            opacity:0.7;
         }
     </style>
 </head>
@@ -146,17 +183,19 @@
 
 <div class="header">
     <h1>📋 Consulta de Mesas</h1>
+    <p>Ingresá tu número de registro</p>
 </div>
 
 <div class="card">
 
     <div class="input-group">
+        <label>Nº de Registro</label>
         <input id="registroInput" placeholder="Ej: 903443">
     </div>
 
     <button class="btn-search" onclick="buscarMesa()">🔍 Buscar Mesa</button>
 
-    <div class="result-container" id="resultContainer"></div>
+    <div id="resultContainer" class="result-container"></div>
 
     <button class="btn-toggle-table" onclick="toggleTable()">📄 Ver listado completo</button>
 
@@ -175,9 +214,13 @@
 
 </div>
 
+<div class="footer">
+    Datos oficiales
+</div>
+
 <script>
 
-// ✅ DATOS CORRECTOS
+// 🔥 DATOS CORREGIDOS (RANGOS)
 const datos = [
 {desde:45036,hasta:836369,mesa:1},
 {desde:836373,hasta:864550,mesa:2},
@@ -209,7 +252,7 @@ const datos = [
 {desde:918997,hasta:921342,mesa:28}
 ];
 
-// 🔍 BUSCAR
+// 🔍 BUSCAR (CORREGIDO)
 function buscarMesa() {
     const input = document.getElementById('registroInput');
     const container = document.getElementById('resultContainer');
@@ -217,7 +260,10 @@ function buscarMesa() {
 
     if (!nro) {
         container.className = 'result-container active';
-        container.innerHTML = `<div class="result-box"><div class="result-header error">⚠️ Ingresá un número válido</div></div>`;
+        container.innerHTML = `
+            <div class="result-box">
+                <div class="result-header error">⚠️ Ingresá un número válido</div>
+            </div>`;
         return;
     }
 
@@ -226,21 +272,24 @@ function buscarMesa() {
     if (res) {
         container.className = 'result-container active';
         container.innerHTML = `
-        <div class="result-box">
-            <div class="result-header success">✅ Registro encontrado</div>
-            <div class="result-row">
-                <div class="result-label">Registro</div>
-                <div class="result-value">${nro}</div>
-            </div>
-            <div class="result-row">
-                <div class="result-label">Mesa</div>
-                <div class="result-value mesa-num">${res.mesa}</div>
-            </div>
-        </div>`;
+            <div class="result-box">
+                <div class="result-header success">✅ Registro encontrado</div>
+                <div class="result-row">
+                    <div class="result-label">Registro</div>
+                    <div class="result-value">${nro}</div>
+                </div>
+                <div class="result-row">
+                    <div class="result-label">Mesa</div>
+                    <div class="result-value mesa-num">${res.mesa}</div>
+                </div>
+            </div>`;
         highlight(res.desde);
     } else {
         container.className = 'result-container active';
-        container.innerHTML = `<div class="result-box"><div class="result-header error">😕 No encontrado</div></div>`;
+        container.innerHTML = `
+            <div class="result-box">
+                <div class="result-header error">😕 No encontrado</div>
+            </div>`;
     }
 }
 
@@ -262,6 +311,7 @@ function highlight(desde) {
         tr.classList.remove("highlight");
         if (parseInt(tr.getAttribute("data")) === desde) {
             tr.classList.add("highlight");
+            tr.scrollIntoView({behavior:'smooth', block:'center'});
         }
     });
 }
