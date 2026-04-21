@@ -1,120 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Consulta de Mesas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Mesas</title>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
-* { margin:0; padding:0; box-sizing:border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-    font-family:'Roboto', Arial, sans-serif;
-    background:linear-gradient(135deg,#e65100,#ff9800);
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:20px;
-}
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
 
-.header {
-    text-align:center;
-    margin:20px 0;
-}
+        .header {
+            text-align: center;
+            margin: 20px 0;
+        }
 
-.header h1 {
-    color:#fff;
-    font-size:1.6rem;
-    font-weight:900;
-}
+        .header h1 {
+            color: #ffffff;
+            font-size: 1.6rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
 
-.card {
-    background:#fff;
-    border-radius:20px;
-    padding:25px;
-    width:100%;
-    max-width:400px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.3);
-}
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
 
-label {
-    font-size:0.8rem;
-    font-weight:700;
-    color:#e65100;
-}
+        .input-group input {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.3rem;
+            border-radius: 12px;
+            border: 3px solid #ffe0b2;
+            text-align: center;
+        }
 
-input {
-    width:100%;
-    padding:15px;
-    margin-top:8px;
-    font-size:1.2rem;
-    text-align:center;
-    border-radius:10px;
-    border:2px solid #ffe0b2;
-}
+        .btn-search {
+            width: 100%;
+            padding: 16px;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #e65100, #ff9800);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+        }
 
-button {
-    width:100%;
-    margin-top:15px;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    font-weight:700;
-    background:#e65100;
-    color:white;
-    font-size:1rem;
-}
+        .result-container { margin-top: 25px; display: none; }
+        .result-container.active { display: block; }
 
-.result {
-    margin-top:20px;
-    padding:15px;
-    border-radius:10px;
-    text-align:center;
-}
+        .result-box { border-radius: 16px; overflow: hidden; }
 
-.success { background:#fff3e0; color:#bf360c; }
-.error { background:#ffebee; color:#c62828; }
+        .result-header {
+            padding: 15px;
+            text-align: center;
+            font-weight: 700;
+        }
 
-.big {
-    font-size:2rem;
-    font-weight:900;
-}
+        .success { background: #e65100; color: white; }
+        .error { background: #c62828; color: white; }
 
-/* TABLA */
-.table-container {
-    margin-top:20px;
-    max-height:300px;
-    overflow-y:auto;
-    border-radius:10px;
-    border:2px solid #ffe0b2;
-}
+        .result-row {
+            display: flex;
+        }
 
-table {
-    width:100%;
-    border-collapse:collapse;
-    font-size:0.8rem;
-}
+        .result-label {
+            flex: 1;
+            padding: 15px;
+            font-weight: 700;
+            background: #fff3e0;
+        }
 
-th {
-    background:#e65100;
-    color:#fff;
-    padding:10px;
-}
+        .result-value {
+            flex: 1;
+            padding: 15px;
+            font-weight: 900;
+            text-align: center;
+            background: #fff8e1;
+        }
 
-td {
-    padding:8px;
-    text-align:center;
-    border-bottom:1px solid #ffe0b2;
-}
+        .mesa-num {
+            font-size: 2.5rem;
+        }
 
-tr.highlight {
-    background:#ffe082;
-    font-weight:700;
-}
-</style>
+        .table-container {
+            margin-top: 15px;
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .table-container.active { display: block; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        th {
+            background: #e65100;
+            color: #fff;
+            padding: 10px;
+        }
+
+        td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        tr.highlight {
+            background: #ffe082;
+            font-weight: bold;
+        }
+
+        .btn-toggle-table {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: #e65100;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -125,102 +150,108 @@ tr.highlight {
 
 <div class="card">
 
-<label>Ingresá tu número de registro</label>
-<input id="input" type="number" placeholder="Ej: 903443">
+    <div class="input-group">
+        <input id="registroInput" placeholder="Ej: 903443">
+    </div>
 
-<button onclick="buscar()">🔍 Buscar Mesa</button>
+    <button class="btn-search" onclick="buscarMesa()">🔍 Buscar Mesa</button>
 
-<div id="resultado"></div>
+    <div class="result-container" id="resultContainer"></div>
 
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Desde</th>
-<th>Hasta</th>
-<th>Mesa</th>
-<th>Ubicación</th>
-</tr>
-</thead>
-<tbody id="tabla"></tbody>
-</table>
-</div>
+    <button class="btn-toggle-table" onclick="toggleTable()">📄 Ver listado completo</button>
+
+    <div class="table-container" id="tableContainer">
+        <table>
+            <thead>
+                <tr>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Mesa</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
 
 </div>
 
 <script>
 
-// 🔥 DATOS CORRECTOS
+// ✅ DATOS CORRECTOS
 const datos = [
-{desde:45036,hasta:836369,mesa:1,ubicacion:"Aula 17 - Ed. Histórico"},
-{desde:836373,hasta:864550,mesa:2,ubicacion:"Aula 17 - Ed. Histórico"},
-{desde:864557,hasta:878133,mesa:3,ubicacion:"Aula 17 - Ed. Histórico"},
-{desde:878137,hasta:884824,mesa:4,ubicacion:"Aula 17 - Ed. Histórico"},
-{desde:884826,hasta:889084,mesa:5,ubicacion:"Aula 19 - Ed. Histórico"},
-{desde:889085,hasta:892512,mesa:6,ubicacion:"Aula 19 - Ed. Histórico"},
-{desde:892513,hasta:894999,mesa:7,ubicacion:"Aula 19 - Ed. Histórico"},
-{desde:895001,hasta:897304,mesa:8,ubicacion:"Aula 36 - Ed. Histórico"},
-{desde:897305,hasta:899305,mesa:9,ubicacion:"Aula 36 - Ed. Histórico"},
-{desde:899307,hasta:901039,mesa:10,ubicacion:"Aula 36 - Ed. Histórico"},
-{desde:901040,hasta:902450,mesa:11,ubicacion:"Aula 37 - Ed. Histórico"},
-{desde:902451,hasta:903951,mesa:12,ubicacion:"Aula 37 - Ed. Histórico"},
-{desde:903952,hasta:905474,mesa:13,ubicacion:"Aula 37 - Ed. Histórico"},
-{desde:905475,hasta:906772,mesa:14,ubicacion:"Aula 38 - Ed. Histórico"},
-{desde:906773,hasta:908008,mesa:15,ubicacion:"Aula 38 - Ed. Histórico"},
-{desde:908009,hasta:908988,mesa:16,ubicacion:"Aula 38 - Ed. Histórico"},
-{desde:908989,hasta:909910,mesa:17,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:909911,hasta:910841,mesa:18,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:910842,hasta:911575,mesa:19,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:911576,hasta:912463,mesa:20,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:912464,hasta:913365,mesa:21,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:913366,hasta:914175,mesa:22,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:914176,hasta:914995,mesa:23,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:914996,hasta:915927,mesa:24,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:915928,hasta:916833,mesa:25,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:916834,hasta:917692,mesa:26,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:917699,hasta:918996,mesa:27,ubicacion:"Salón de Actos - Ed. Anexo"},
-{desde:918997,hasta:921342,mesa:28,ubicacion:"Salón de Actos - Ed. Anexo"}
+{desde:45036,hasta:836369,mesa:1},
+{desde:836373,hasta:864550,mesa:2},
+{desde:864557,hasta:878133,mesa:3},
+{desde:878137,hasta:884824,mesa:4},
+{desde:884826,hasta:889084,mesa:5},
+{desde:889085,hasta:892512,mesa:6},
+{desde:892513,hasta:894999,mesa:7},
+{desde:895001,hasta:897304,mesa:8},
+{desde:897305,hasta:899305,mesa:9},
+{desde:899307,hasta:901039,mesa:10},
+{desde:901040,hasta:902450,mesa:11},
+{desde:902451,hasta:903951,mesa:12},
+{desde:903952,hasta:905474,mesa:13},
+{desde:905475,hasta:906772,mesa:14},
+{desde:906773,hasta:908008,mesa:15},
+{desde:908009,hasta:908988,mesa:16},
+{desde:908989,hasta:909910,mesa:17},
+{desde:909911,hasta:910841,mesa:18},
+{desde:910842,hasta:911575,mesa:19},
+{desde:911576,hasta:912463,mesa:20},
+{desde:912464,hasta:913365,mesa:21},
+{desde:913366,hasta:914175,mesa:22},
+{desde:914176,hasta:914995,mesa:23},
+{desde:914996,hasta:915927,mesa:24},
+{desde:915928,hasta:916833,mesa:25},
+{desde:916834,hasta:917692,mesa:26},
+{desde:917699,hasta:918996,mesa:27},
+{desde:918997,hasta:921342,mesa:28}
 ];
 
 // 🔍 BUSCAR
-function buscar() {
-    const valor = parseInt(document.getElementById("input").value);
-    const div = document.getElementById("resultado");
+function buscarMesa() {
+    const input = document.getElementById('registroInput');
+    const container = document.getElementById('resultContainer');
+    const nro = parseInt(input.value);
 
-    if (!valor) {
-        div.innerHTML = `<div class="result error">⚠️ Ingresá un número válido</div>`;
+    if (!nro) {
+        container.className = 'result-container active';
+        container.innerHTML = `<div class="result-box"><div class="result-header error">⚠️ Ingresá un número válido</div></div>`;
         return;
     }
 
-    const res = datos.find(d => valor >= d.desde && valor <= d.hasta);
+    const res = datos.find(d => nro >= d.desde && nro <= d.hasta);
 
     if (res) {
-        div.innerHTML = `
-        <div class="result success">
-            <div>📝 Registro: ${valor}</div>
-            <div class="big">🪑 Mesa ${res.mesa}</div>
-            <div>📍 ${res.ubicacion}</div>
+        container.className = 'result-container active';
+        container.innerHTML = `
+        <div class="result-box">
+            <div class="result-header success">✅ Registro encontrado</div>
+            <div class="result-row">
+                <div class="result-label">Registro</div>
+                <div class="result-value">${nro}</div>
+            </div>
+            <div class="result-row">
+                <div class="result-label">Mesa</div>
+                <div class="result-value mesa-num">${res.mesa}</div>
+            </div>
         </div>`;
         highlight(res.desde);
     } else {
-        div.innerHTML = `<div class="result error">😕 No encontrado</div>`;
+        container.className = 'result-container active';
+        container.innerHTML = `<div class="result-box"><div class="result-header error">😕 No encontrado</div></div>`;
     }
 }
 
-// ENTER
-document.getElementById("input").addEventListener("keypress", e => {
-    if (e.key === "Enter") buscar();
-});
-
 // 📊 TABLA
 function cargarTabla() {
-    const t = document.getElementById("tabla");
-    t.innerHTML = datos.map(d => `
-        <tr data-desde="${d.desde}">
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = datos.map(d => `
+        <tr data="${d.desde}">
             <td>${d.desde}</td>
             <td>${d.hasta}</td>
             <td>${d.mesa}</td>
-            <td>${d.ubicacion}</td>
         </tr>
     `).join('');
 }
@@ -229,12 +260,20 @@ function cargarTabla() {
 function highlight(desde) {
     document.querySelectorAll("tr").forEach(tr => {
         tr.classList.remove("highlight");
-        if (parseInt(tr.dataset.desde) === desde) {
+        if (parseInt(tr.getAttribute("data")) === desde) {
             tr.classList.add("highlight");
-            tr.scrollIntoView({behavior:"smooth",block:"center"});
         }
     });
 }
+
+// 📄 TOGGLE
+function toggleTable() {
+    document.getElementById("tableContainer").classList.toggle("active");
+}
+
+document.getElementById("registroInput").addEventListener("keypress", e => {
+    if (e.key === "Enter") buscarMesa();
+});
 
 cargarTabla();
 
